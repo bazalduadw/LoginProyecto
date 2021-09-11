@@ -85,9 +85,9 @@ class Login extends Component {
                         <button className="enviar" onClick={()=> this.iniciarSesion()}>Iniciar Sesión</button>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="container2">
-                {/* AQUI VA EL BACJGROUND IMG */}
+                {/* AQUI VA EL BACKGROUND IMG */}
             </div>
         </div>
         );
