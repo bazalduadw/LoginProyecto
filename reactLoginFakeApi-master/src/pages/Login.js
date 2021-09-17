@@ -1,32 +1,30 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import md5 from 'md5';
 import Cookies from 'universal-cookie';
-import logo from '../assets/opcion-financiera-logo.png';
-import styles from '../assets/css/styles.css';
+import '../assets/css/styles.css';
+import Logo from '../components/Logo/Logo';
 
-const baseUrl="http://localhost:3001/usuarios";
-const cookies = new Cookies();
 
-class Login extends Component {
-    state={
-        form:{
-            username: '',
-            password: ''
+const Login = () => {
+
+    const baseUrl="http://localhost:3001/usuarios";
+    const cookies = new Cookies();
+
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const onChange = (e) => {
+        if(e.target.name === 'username'){
+            setUsername(e.target.value)
+        } else if (e.target.name === 'password'){
+            setPassword(e.target.value)
         }
     }
 
-    handleChange=async e=>{
-        await this.setState({
-            form:{
-                ...this.state.form,
-                [e.target.name]: e.target.value
-            }
-        });
-    }
-
-    iniciarSesion=async()=>{
-        await axios.get(baseUrl, {params: {username: this.state.form.username, password: md5(this.state.form.password)}})
+    const iniciarSesion=async()=>{
+        await axios.get(baseUrl, {params: {setUsername: username, setPassword: md5(password)}})
         .then(response=>{
             return response.data;
         })
@@ -47,42 +45,39 @@ class Login extends Component {
         .catch(error=>{
             console.log(error);
         })
-
     }
 
-    componentDidMount() {
+    useEffect(() => {
         if(cookies.get('username')){
-            window.location.href="./menu";
+            window.location.href="./menu"
         }
-    }
+    })
 
-    render() {
-        return (
-
+    return ( 
         <div className='container'>
             <div className="container1">
                 <div>
-                    <img src={logo} alt="Logo Opcion Financiera"></img>
-                </div>
-                
+                    <Logo />
+                </div> 
                 <div className='formLogin'>
                     <input
                         type="text"
                         placeholder="Usuario"
                         className="inputForm"
                         name="username"
-                        onChange={this.handleChange}
-                        
+                        value={username}
+                        onChange={onChange}
                     />
                     <input
                         type="password"
                         className="inputForm"
                         placeholder="Password"
                         name="password"
-                        onChange={this.handleChange}
+                        value={password}
+                        onChange={onChange}
                     />
                     <div class="ContenedorBotonEnviar">
-                        <button className="enviar" onClick={()=> this.iniciarSesion()}>Iniciar Sesión</button>
+                        <button className="enviar" onClick={() => iniciarSesion()}>LOGIN</button>
                     </div>
                 </div>
             </div>
@@ -90,8 +85,7 @@ class Login extends Component {
                 {/* AQUI VA EL BACJGROUND IMG */}
             </div>
         </div>
-        );
-    }
+     );
 }
-
+ 
 export default Login;

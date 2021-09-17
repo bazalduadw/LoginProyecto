@@ -2,18 +2,18 @@
     "usuarios":[
         {
             "id": 1,
-            "apellido_paterno": "Garcia",
-            "apellido_materno": "Carlos",
-            "nombre": "Carlos",
-            "username": "admin",
+            "apellido_paterno": "Bazaldua",
+            "apellido_materno": "Cerda",
+            "nombre": "Luis",
+            "username": "luis01",
             "password": "827ccb0eea8a706c4c34a16891f84e7b"
         },
         {
-            "id": 21,
-            "apellido_paterno": "Chavez",
-            "apellido_materno": "Rodriguez",
-            "nombre": "Cesar",
-            "username": "cesarin",
+            "id": 2,
+            "apellido_paterno": "Macias",
+            "apellido_materno": "Paez",
+            "nombre": "Eduardo",
+            "username": "eduardo01",
             "password": "6f597c1ddab467f7bf5498aad1b41899"
         }
     ]
