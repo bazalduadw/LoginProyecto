@@ -1,0 +1,14 @@
+.container_navbar_profile{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.avatar{
+    background-color: #b82b56 !important; 
+    margin-right: 10px;
+}
+
+.MuiAvatar-colorDefault {
+    background-color: #b82b56;
+}

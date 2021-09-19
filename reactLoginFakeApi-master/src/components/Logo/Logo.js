@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../assets/images/opcion-financiera-logo.png'
+import logo from '../../assets/images/logo.png'
 
 const Logo = () => {
     return ( 

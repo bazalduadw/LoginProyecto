@@ -1,30 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import md5 from 'md5';
 import Cookies from 'universal-cookie';
-import '../assets/css/styles.css';
+import styles from '../assets/css/Login.module.css';
 import Logo from '../components/Logo/Logo';
 
+const baseUrl="http://localhost:3001/usuarios";
+const cookies = new Cookies();
 
-const Login = () => {
+class Login extends Component {
+    state={ form:{ username: '', password: '' } }
 
-    const baseUrl="http://localhost:3001/usuarios";
-    const cookies = new Cookies();
-
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const onChange = (e) => {
-        if(e.target.name === 'username'){
-            setUsername(e.target.value)
-        } else if (e.target.name === 'password'){
-            setPassword(e.target.value)
-        }
+    handleChange=async e=>{
+        await this.setState({
+            form:{
+                ...this.state.form,
+                [e.target.name]: e.target.value
+            }
+        });
     }
 
-    const iniciarSesion=async()=>{
-        await axios.get(baseUrl, {params: {setUsername: username, setPassword: md5(password)}})
+    iniciarSesion=async()=>{
+        await axios.get(baseUrl, {params: {username: this.state.form.username, password: md5(this.state.form.password)}})
         .then(response=>{
             return response.data;
         })
@@ -37,7 +34,7 @@ const Login = () => {
                 cookies.set('nombre', respuesta.nombre, {path: "/"});
                 cookies.set('username', respuesta.username, {path: "/"});
                 alert(`Bienvenido ${respuesta.nombre} ${respuesta.apellido_paterno}`);
-                window.location.href="./menu";
+                window.location.href="./home";
             }else{
                 alert('El usuario o la contraseña no son correctos');
             }
@@ -47,45 +44,39 @@ const Login = () => {
         })
     }
 
-    useEffect(() => {
-        if(cookies.get('username')){
-            window.location.href="./menu"
-        }
-    })
+    componentDidMount() { if(cookies.get('username')){window.location.href="./home";} }
 
-    return ( 
-        <div className='container'>
-            <div className="container1">
-                <div>
-                    <Logo />
-                </div> 
-                <div className='formLogin'>
+    render() {
+        return (
+        <div className={styles.container}>
+            <div className={styles.container1}>
+                <div> <Logo /> </div> 
+                <div className={styles.formLogin}>
                     <input
                         type="text"
                         placeholder="Usuario"
-                        className="inputForm"
+                        className={styles.inputForm}
                         name="username"
-                        value={username}
-                        onChange={onChange}
+                        onChange={this.handleChange}
                     />
                     <input
                         type="password"
-                        className="inputForm"
+                        className={styles.inputForm}
                         placeholder="Password"
                         name="password"
-                        value={password}
-                        onChange={onChange}
+                        onChange={this.handleChange}
                     />
-                    <div class="ContenedorBotonEnviar">
-                        <button className="enviar" onClick={() => iniciarSesion()}>LOGIN</button>
+                    <div class={styles.contenedorBotonEnviar}>
+                        <button className={styles.enviar} onClick={()=> this.iniciarSesion()}>LOGIN</button>
                     </div>
                 </div>
             </div>
-            <div class="container2">
-                {/* AQUI VA EL BACJGROUND IMG */}
+            <div class={styles.container2}>
+                {/* AQUI VA EL BACKGROUND IMG */}
             </div>
         </div>
-     );
+        );
+    }
 }
  
 export default Login;
